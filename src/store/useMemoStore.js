@@ -17,4 +17,12 @@ export const useMemoStore = create((set) => ({
       saveMemos(updatedMemos);
       return { memos: updatedMemos };
     }),
+  updateMemo: (updatedMemo) =>
+    set((state) => {
+      const updatedMemos = state.memos.map((memo) =>
+        memo.id === updatedMemo.id ? updatedMemo : memo
+      );
+      saveMemos(updatedMemos);
+      return { memos: updatedMemos };
+    }),
 }));

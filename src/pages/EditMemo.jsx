@@ -1,10 +1,12 @@
 import { useEffect, useRef, useState } from "react";
 import { v4 as uuid } from "uuid";
 import { useMemoStore } from "../store/useMemoStore";
+import { useParams } from "react-router-dom";
 
 export default function EditMemo() {
-  const [text, setText] = useState({ title: "", content: "" });
-  const { addMemo } = useMemoStore();
+  const { memoId } = useParams();
+  const { memos, addMemo, updateMemo } = useMemoStore();
+  const [text, setText] = useState(setInitialText(memoId, memos));
   const textRef = useRef(text);
   const handleChange = (e, key) =>
     setText((prev) => {
@@ -16,11 +18,11 @@ export default function EditMemo() {
     const { title, content } = memo;
     if (title || content) {
       const memoData = {
-        id: uuid(),
+        id: memoId || uuid(),
         title: title.trim() || "제목없음",
         content,
       };
-      addMemo(memoData);
+      memoId ? updateMemo(memoData) : addMemo(memoData);
     }
   };
   console.log(text);
@@ -44,4 +46,10 @@ export default function EditMemo() {
       ></textarea>
     </form>
   );
+}
+
+function setInitialText(memoId, memos) {
+  return memoId
+    ? memos.find((memo) => memo.id === memoId)
+    : { title: "", content: "" };
 }
