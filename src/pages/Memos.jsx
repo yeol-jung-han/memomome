@@ -1,12 +1,12 @@
+import MemoCard from "../components/MemoCard";
 import { useMemoStore } from "../store/useMemoStore";
 
 export default function Memos() {
   const { memos } = useMemoStore();
-  console.log(memos);
   return (
     <ul>
       {memos.map((memo) => (
-        <li key={memo.id}>{memo.title}</li>
+        <MemoCard key={memo.id} memo={memo} />
       ))}
     </ul>
   );
