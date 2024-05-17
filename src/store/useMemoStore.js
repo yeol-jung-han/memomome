@@ -25,4 +25,12 @@ export const useMemoStore = create((set) => ({
       saveMemos(updatedMemos);
       return { memos: updatedMemos };
     }),
+  deleteMemo: (toBeDeleted) =>
+    set((state) => {
+      const updatedMemos = state.memos.filter(
+        (memo) => memo.id !== toBeDeleted.id
+      );
+      saveMemos(updatedMemos);
+      return { memos: updatedMemos };
+    }),
 }));
